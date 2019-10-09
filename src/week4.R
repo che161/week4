@@ -2,7 +2,7 @@
 library(tidyverse)
 read_csv("data/BOM_data.csv")
 BOM <- read_csv("data/BOM_data.csv")
-
+BOM
 #read_csv("data/BOM_stations.csv",col_names = FALSE)
 read_csv("data/BOM_stations.csv")
 
@@ -36,7 +36,7 @@ BOM_Stations_Tidy
 BOM_Stations_Tidy2 <-   mutate(BOM_Stations_Tidy, station = as.numeric(Station_number)) %>% 
   select(station,state) %>% 
   rename(Station_number = station)
-
+BOM_Stations_Tidy2
 MinTemp <- BOM %>% 
   separate(col=Temp_min_max, into = c("Temp_min", "Temp_max"), sep = "/") %>% #separate Temp_min_max
   filter(Temp_min != "-", Temp_max != "-", Rainfall >= 0.) %>% #filter data 
@@ -73,3 +73,50 @@ MeanSol
 inner_join(MeanSol,Station_Lon2) %>% # join two tables
   filter(lon == min(lon) | lon == max(lon)) %>% #work out the eastmost and westmost station
   write.csv("res/Question4.csv")
+
+#CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+#Questsion 1
+Qust1 <- BOM %>% 
+  separate(col=Temp_min_max, into = c("Temp_min", "Temp_max"), sep = "/") %>% #separate Temp_min_max
+  filter(Temp_min != "-", Temp_max != "-", Rainfall != "-", Solar_exposure != "-") %>% #filter data 
+  filter(Station_number == 9225) %>% # filter with Station_number
+  mutate(Temp_min = as.numeric(Temp_min), Temp_max = as.numeric(Temp_max), 
+         Rainfall = as.numeric(Rainfall), Solar_exposure = as.numeric(Solar_exposure))
+
+Qust1
+summarise(Qust1, maxsol = max(Solar_exposure))
+Qust1 %>% write.csv("res/Question1.csv")
+
+# Using ggplot2
+Qest1_plot1 <- ggplot(
+  data = Qust1, 
+  mapping = aes(x = Temp_max, y = Temp_min, colour = Temp_min)
+) +
+  geom_point(alpha = 0.2) 
+Qest1_plot1
+ggsave("fig/Quest1_plot1.png", plot = Qest1_plot1)
+
+Qest1_plot2 <- ggplot(
+  data = Qust1, 
+  mapping = aes(x = Temp_max, y = Rainfall, colour = Rainfall)
+) +
+  geom_point(alpha = 0.2) 
+Qest1_plot2
+ggsave("fig/Quest1_plot2.png", plot = Qest1_plot2)
+
+Qest1_plot3 <- ggplot(
+  data = Qust1, 
+  mapping = aes(x = Temp_max, y = Solar_exposure, colour = Solar_exposure)
+) +
+  geom_point(alpha = 0.2) 
+Qest1_plot3
+ggsave("fig/Quest1_plot3.png", plot = Qest1_plot3)
+
+
+#CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+#Questsion 2
+
+
+
+
+
