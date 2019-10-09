@@ -111,9 +111,8 @@ Meanrainfallstate <- inner_join(Meanrainfall,Station_Lon2)
 Meanrainfallstate %>%    write.csv("res/Question4.csv")
 Meanrainfallstate
 
-Qest4_plot1 <- ggplot(
-  data = Meanrainfallstate, 
-  mapping = aes(x = Month, y = mean_rainf, colour = state)
+Qest4_plot1 <- Meanrainfallstate %>% 
+  ggplot(mapping = aes(x = Month, y = mean_rainf, colour = state, group = Station_number )
 ) +
   geom_line()+
   scale_x_continuous(breaks = seq(1,12,1)) +
