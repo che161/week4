@@ -112,7 +112,8 @@ Meanrainfallstate %>%    write.csv("res/Question4.csv")
 Meanrainfallstate
 
 Qest4_plot1 <- Meanrainfallstate %>% 
-  ggplot(mapping = aes(x = Month, y = mean_rainf, colour = state, group = Station_number )
+  ggplot(mapping = 
+    aes(x = Month, y = mean_rainf, colour = state, group = Station_number)
 ) +
   geom_line()+
   scale_x_continuous(breaks = seq(1,12,1)) +
@@ -120,7 +121,21 @@ Qest4_plot1 <- Meanrainfallstate %>%
     title = "Question 4",      # main title of figure
     x = "Month",              # x axis title
     y = "mean_rainf (mm)"   # y axis title
-  )   
+  )  
+
+Qest4_plot1 <- Meanrainfallstate %>% 
+  ggplot(mapping = 
+           aes(x = Month, y = mean_rainf, colour = state, group = Station_number)
+  ) +
+  geom_line()+
+  scale_x_continuous(breaks = seq(1,12,1)) +
+  labs(
+    title = "Question 4",      # main title of figure
+    x = "Month",              # x axis title
+    y = "mean_rainf (mm)"   # y axis title
+  )  +
+  facet_wrap( ~ state)
+
 Qest4_plot1
 ggsave("fig/Quest4_plot1.png", plot = Qest4_plot1)
 
